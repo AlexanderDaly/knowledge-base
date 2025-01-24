@@ -1,6 +1,6 @@
 """Knowledge base package."""
 
-from .api.query_engine import QueryEngine
+from .simple_store import SimpleStore
 
 __version__ = "0.1.0"
-__all__ = ["QueryEngine"]
+__all__ = ["SimpleStore"]

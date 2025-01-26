@@ -1,7 +1,8 @@
-"""Simple vector store implementation using sentence-transformers and numpy."""
+"""Vector store implementation using ChromaDB and sentence-transformers."""
 
 from sentence_transformers import SentenceTransformer
-import numpy as np
+import chromadb
+from chromadb.config import Settings
 from typing import List, Dict, Optional
 import logging
 from pathlib import Path
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class SimpleStore:
-    """A simple vector store for text documents."""
+    """A vector store for text documents using ChromaDB."""
     
     def __init__(self, model_name: str = 'all-MiniLM-L6-v2'):
         """Initialize the store.
@@ -19,8 +20,19 @@ class SimpleStore:
             model_name: Name of the sentence-transformer model to use
         """
         self.model = SentenceTransformer(model_name)
-        self.documents = []  # List of document chunks
-        self.embeddings = None  # Document embeddings
+        
+        # Initialize ChromaDB client with persistence
+        self.client = chromadb.Client(Settings(
+            persist_directory="./data/chroma_db",
+            anonymized_telemetry=False
+        ))
+        
+        # Create or get collection
+        self.collection = self.client.get_or_create_collection(
+            name="documents",
+            embedding_function=lambda texts: self.model.encode(texts).tolist()
+        )
+        
         logger.info(f"Initialized SimpleStore with model: {model_name}")
 
     def _chunk_text(self, text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
@@ -71,28 +83,22 @@ class SimpleStore:
             # Split into chunks
             chunks = self._chunk_text(text)
             
-            # Add metadata
-            doc_chunks = [
+            # Generate IDs and metadata for chunks
+            ids = [f"{path.name}_{i}" for i in range(len(chunks))]
+            metadatas = [
                 {
-                    'content': chunk,
-                    'metadata': {
-                        'source': path.name,
-                        'chunk_index': i
-                    }
+                    'source': path.name,
+                    'chunk_index': i
                 }
-                for i, chunk in enumerate(chunks)
+                for i in range(len(chunks))
             ]
             
-            # Generate embeddings
-            new_embeddings = self.model.encode([chunk['content'] for chunk in doc_chunks])
-            
-            # Add to store
-            if self.embeddings is None:
-                self.embeddings = new_embeddings
-            else:
-                self.embeddings = np.vstack([self.embeddings, new_embeddings])
-                
-            self.documents.extend(doc_chunks)
+            # Add to ChromaDB collection
+            self.collection.add(
+                documents=chunks,
+                ids=ids,
+                metadatas=metadatas
+            )
             
             logger.info(f"Added document {path.name} with {len(chunks)} chunks")
             
@@ -111,29 +117,32 @@ class SimpleStore:
             List of relevant chunks with metadata and similarity scores
         """
         try:
-            if not self.documents:
-                return []
-                
-            # Generate query embedding
-            query_embedding = self.model.encode([query_text])[0]
-            
-            # Calculate similarities
-            similarities = np.dot(self.embeddings, query_embedding) / (
-                np.linalg.norm(self.embeddings, axis=1) * np.linalg.norm(query_embedding)
+            # Query ChromaDB collection
+            results = self.collection.query(
+                query_texts=[query_text],
+                n_results=n_results,
+                include=['documents', 'metadatas', 'distances']
             )
             
-            # Get top results
-            top_indices = np.argsort(similarities)[-n_results:][::-1]
-            
-            results = []
-            for idx in top_indices:
-                results.append({
-                    'content': self.documents[idx]['content'],
-                    'metadata': self.documents[idx]['metadata'],
-                    'similarity': float(similarities[idx])
-                })
-                
-            return results
+            # Format results to match original API
+            formatted_results = []
+            if results['documents']:
+                for doc, meta, distance in zip(
+                    results['documents'][0],
+                    results['metadatas'][0],
+                    results['distances'][0]
+                ):
+                    # Convert distance to similarity score (ChromaDB returns L2 distance)
+                    # Normalize to 0-1 range where 1 is most similar
+                    similarity = 1 / (1 + distance)
+                    
+                    formatted_results.append({
+                        'content': doc,
+                        'metadata': meta,
+                        'similarity': float(similarity)
+                    })
+                    
+            return formatted_results
             
         except Exception as e:
             logger.error(f"Error querying store: {str(e)}")
@@ -145,7 +154,8 @@ class SimpleStore:
         Returns:
             Dictionary containing statistics
         """
+        count = self.collection.count()
         return {
-            'document_count': len(self.documents),
-            'embedding_dimension': self.embeddings.shape[1] if self.embeddings is not None else 0
+            'document_count': count,
+            'embedding_dimension': self.model.get_sentence_embedding_dimension()
         }

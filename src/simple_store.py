@@ -3,12 +3,30 @@
 from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Sequence
 import logging
 from pathlib import Path
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+class SentenceTransformerEmbedding:
+    """Wrapper for sentence-transformer model to match ChromaDB's embedding interface."""
+    
+    def __init__(self, model_name: str):
+        self.model = SentenceTransformer(model_name)
+        
+    def __call__(self, input: List[str]) -> List[List[float]]:
+        """Generate embeddings for a list of texts.
+        
+        Args:
+            input: List of texts to embed
+            
+        Returns:
+            List of embeddings as float lists
+        """
+        embeddings = self.model.encode(input)
+        return embeddings.tolist()
 
 class SimpleStore:
     """A vector store for text documents using ChromaDB."""
@@ -19,7 +37,7 @@ class SimpleStore:
         Args:
             model_name: Name of the sentence-transformer model to use
         """
-        self.model = SentenceTransformer(model_name)
+        self.embedding_function = SentenceTransformerEmbedding(model_name)
         
         # Initialize ChromaDB client with persistence
         self.client = chromadb.Client(Settings(
@@ -30,7 +48,7 @@ class SimpleStore:
         # Create or get collection
         self.collection = self.client.get_or_create_collection(
             name="documents",
-            embedding_function=lambda texts: self.model.encode(texts).tolist()
+            embedding_function=self.embedding_function
         )
         
         logger.info(f"Initialized SimpleStore with model: {model_name}")
@@ -157,5 +175,5 @@ class SimpleStore:
         count = self.collection.count()
         return {
             'document_count': count,
-            'embedding_dimension': self.model.get_sentence_embedding_dimension()
+            'embedding_dimension': self.embedding_function.model.get_sentence_embedding_dimension()
         }

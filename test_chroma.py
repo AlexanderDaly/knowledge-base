@@ -1,6 +1,11 @@
+import sys
 from src.simple_store import SimpleStore
 
 def main():
+    # Set console to UTF-8 mode
+    if sys.platform == 'win32':
+        sys.stdout.reconfigure(encoding='utf-8')
+
     # Initialize store
     store = SimpleStore()
     
@@ -15,7 +20,7 @@ def main():
     queries = [
         "What does this document test?",
         "What capabilities does ChromaDB provide?",
-        "How does the chunking work?"
+        "What is the 75th Pangram?"
     ]
     
     for query in queries:

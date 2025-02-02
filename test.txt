@@ -1,4 +1,117 @@
-This is a test document to verify the ChromaDB implementation.
-It contains multiple sentences to test the chunking functionality.
-The vector store should be able to find relevant chunks based on semantic similarity.
-ChromaDB provides efficient vector search and persistence capabilities.
+Chroma
+
+Chroma is the open-source AI application database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs.
+
+The documentation provides a getting started guide for new users to begin working with Chroma. Chroma Cloud is also available as a fully managed hosted service.
+A Collection of 111 Pangrams 
+1. A large fawn jumped quickly over white zinc boxes. 
+2. A mad boxer shot a quick, gloved jab to the jaw of his dizzy opponent.
+3. A quick movement of the enemy will jeopardize six gunboats. 
+4. About sixty codfish eggs will make a quarter pound of very fizzy jelly.
+5. Alfredo just must bring very exciting news to the plaza quickly. 
+6. All questions asked by five watch experts amazed the judge. 
+7. An inspired calligrapher can create pages of beauty using stick ink, quill, brush, pick‐axe, buzz saw, or even strawberry jam. 
+8. Anxious Paul waved back his pa from the zinc quarry just sighted. 
+9. As we explored the gulf of Zanzibar, we quickly moved closer to the jutting rocks. 
+10. Astronaut Quincy B. Zack defies gravity with six jet fuel pumps. 
+11. Back in June we delivered oxygen equipment of the same size. 
+12. Back in my quaint garden jaunty zinnias vie with flaunting phlox. 
+13. Big July earthquakes confound zany experimental vow. 
+14. Brawny gods just flocked up to quiz and vex him. 
+15. Breezily jangling $3,416,857,209 wise advertiser ambles to the bank, his exchequer amplified. 
+16. Crazy Fredericka bought many very exquisite opal jewels. 
+17. David, Jewish ex‐monarch, kept big vineyard, quizzical wife. 
+18. Dumpy kibitzer jingles as exchequer overflows. 
+19. Ebenezer unexpectedly bagged two tranquil aardvarks with his jiffy vacuum cleaner. 
+20. Exquisite farm wench gives body jolt to prize stinker. 
+21. Fabled reader with jaded, roving eye seized by quickened impulse to expand budget. 
+22. Five big quacking zephyrs jolt my wax bed. 
+23. Five or six big jet planes zoomed quickly by the tower. 
+24. Five wine experts jokingly quizzed sample Chablis. 
+25. For only $49, jolly housewives made "inexpensive" meals using quick‐frozen vegetables. 
+26. Forsaking monastic tradition, twelve jovial friars gave up their vocation for a questionable existence on the flying trapeze. 
+27. Fred specialized in the job of making very quaint wax toys. 
+28. Freight to me sixty dozen quart jars and twelve black pans. 
+29. Grumpy wizards make toxic brew for the evil Queen and Jack. 
+30. Hark! Toxic jungle water vipers quietly drop on zebras for meals! 
+31. His graceful bisque vase whizzed past my taxi‐‐no joke! 
+32. How quickly daft jumping zebras vex. 
+33. How razorback‐jumping frogs can level six piqued gymnasts! 
+34. How vexing a fumble to drop a jolly zucchini in the quicksand. 
+35. I have quickly spotted the four women dozing in the jury box. 
+36. Jack amazed a few girls by dropping the antique onyx vase! 
+37. Jack Farmer realized that the big yellow quilts were expensive. 
+38. Jackdaws love my big sphinx of quartz. 
+39. Jacqueline was vexed by the folks who go the money prizes. 
+40. Jaded zombies acted quaintly but kept driving their oxen forward. 
+41. Jail zesty vixen who grabbed pay from quack. 
+42. Jeb quickly drove a few extra miles on the glazed pavement. 
+43. Jelly‐like above the high wire, six quaking pachyderms kept the climax of the extravaganza in a dazzling state of flux. 
+44. Jim just quit and packed extra bags for Liz Owen. 
+45. Jimmy and Zack, the police explained, were last seen diving into a field of buttered quahogs. 
+46. Judge Powell quickly gave six embezzlers stiff sentences. 
+47. Just keep examining every low bid quoted for zinc etchings. 
+48. Just work for improved basic techniques to maximize your typing skill. 
+49. King Alexander was just partly overcome after quizzing Diogenes in his tub. 
+50. Lazy movers quit hard‐packing of papier‐mâché jewelry boxes. 
+51. Many big jackdaws quickly zipped over the fox pen. 
+52. Martin J. Hixeypozer quickly began his first word. 
+53. May Jo equal the fine record by solving six puzzles a week? 
+54. Meghan deftly picks valuable jewels‐‐onyx, quartz. 
+55. Mix Zapf with Veljovic and get quirky Beziers. 
+56. Mr. Jock, TV quiz Ph.D., bags few lynx. 
+57. Murky haze enveloped a city as jarring quakes broke forty‐six windows. 
+58. My grandfather picks up quartz and valuable onyx jewels. 
+59. My help squeezed back in again and joined the weavers after six. 
+60. New farm hand (picking just six quinces) proves strong but lazy. 
+61. No kidding, Lorenzo called off his trip to visit Mexico City just because they told him the conquistadors were extinct. 
+62. Now is the time for all brown dogs to jump quickly over the lazy lynx. 
+63. Pack my box with five dozen jugs of liquid veneer. 
+64. Pack my box with five dozen liquor jugs. 
+65. Patchwork quilt muzzles baffled young vixen Jo. 
+66. Perhaps President Clinton's amazing sax skills will be judged quite favorably. 
+67. Picking just six quinces, the new farmhand proved strong but lazy. 
+68. Puzzled women bequeath jerks very exotic gifts. 
+69. Questions of a zealous nature have become by degrees petty waxen jokes. 
+70. Quick wafting zephyrs vex bold Jim. 
+71. Quick zephyrs blow, vexing daft Jim. 
+72. Quixotic Republicans vet first key zero‐growth jeremiad. 
+73. Six big devils from Japan quickly forgot how to waltz. 
+74. Six big juicy steaks sizzled in a pan as five workmen left the quarry. 
+75. Six crazy kings vowed to abolish my quite pitiful jousts. 
+76. Six of the women quietly gave back prizes to the judge. 
+77. Sixty zippers were quickly picked from the woven jute bag. 
+78. Sphinx of black quartz judge my vow. 
+79. Sympathizing would fix Quaker objectives. 
+80. The Basque M.P. loved his wife's onyx jar and zinc‐lined keg. 
+81. The exodus of jazzy pigeons craved by squeamish walkers. 
+82. The five boxing wizards jump quickly. 
+83. The job of waxing linoleum frequently peeves chintzy kids. 
+84. The juke box music puzzled a gentle visitor from a quaint valley town. 
+85. The July sun caused a fragment of black pine wax to ooze on the velvet quilt. 
+86. The junior office clerks were quite amazed at the extra reward given by their generous employer. 
+87. The quick brown fox jumps over the lazy dog. 
+88. The sex life of the woodchuck is a provocative question for most vertebrate zoology majors. 
+89. The vixen jumped quickly on her foe barking with zeal. 
+90. Their kind aunt was subject to frequent dizzy spells, thus causing much anxiety and worry. 
+91. Travelling beneath the azure sky in our jolly ox‐cart, we often hit bumps quite hard. 
+92. Turgid saxophones blew over Mick's jazzy quiff. 
+93. Two hardy boxing kangaroos jet from Sydney to Zanzibar on quicksilver pinions. 
+94. Venerable Will played jazz sax until 3 o'clock in the morning before he quit. 
+95. Verbatim reports were quickly given by Jim Fox to his amazed audience. 
+96. Verily the dark ex‐Jew quit Zionism, preferring the cabala. 
+97. Viewing quizzical abstracts mixed up hefty jocks. 
+98. Waltz, nymph, for quick jigs vex Bud. 
+99. We could jeopardize six of the gunboats by two quick moves. 
+100. We have just quoted on nine dozen boxes of gray lamp wicks. 
+101. We promptly judged antique ivory buckles for the next prize. 
+102. Weekly magazines request help for and by junior executives. 
+103. West quickly gave Bert handsome prizes for six juicy plums. 
+104. When we go back to Juarez, Mexico, do we fly over picturesque Arizona? 
+105. While waxing parquet decks, Suez sailors vomit jauntily abaft. 
+106. Will Major Douglas be expected to take this true‐false quiz very soon? 
+107. William Lex quickly caught five dozen Republicans. 
+108. William said that all of his black vinyl jacket was in quite fine condition excepting the zipper. 
+109. William said that everything about his jacket was in quite good condition except for the zipper. 
+110. Wolfing kumquats, jovial Charon poled his boat lazily along the Styx. 
+111. Zany Jacques French's pub mixed watery vodka gimlets. 
